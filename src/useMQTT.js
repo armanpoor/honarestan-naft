@@ -11,7 +11,7 @@ export default function useMQTT(channel = 'rfid') {
   // ask for mqtt connection credentials from server
   useEffect(() => {
     // start mqtt websocket connection in browser
-    startConnection('localhost', '8083', 'mqttx_bc709c73', '', false);
+    startConnection('broker.mqttdashboard.com', '8000', '', '', false);
   }, []);
   // // show notification every time a new mqtt message is received
   // useEffect(() => {
@@ -47,7 +47,7 @@ export default function useMQTT(channel = 'rfid') {
 
   // connection manager
   function startConnection(host, port, username, password, useSSL) {
-    var client = new MqttClient(host, Number(port), '/mqtt', '');
+    var client = new MqttClient(host, Number(port), '/mqtt', 'clientId-73DAkyouxH');
     // called when the client connects
     function onConnect() {
       setMqttStatus('CONNECTED');
@@ -78,7 +78,6 @@ export default function useMQTT(channel = 'rfid') {
       } catch {}
     }
 
-
     try {
       // set callback handlers
       client.onConnectionLost = onConnectionLost;
@@ -91,9 +90,9 @@ export default function useMQTT(channel = 'rfid') {
         userName: username,
         password: password,
       });
-      document.querySelector("#button").addEventListener("click", function(e) {
-        const message = document.querySelector("#input")?.textContent;
-        client.publish("rfid", message);
+      document.querySelector('#button').addEventListener('click', function (e) {
+        const message = document.querySelector('#input')?.textContent;
+          client.publish('rfid', message);
       });
     } catch {
       onConnectionLost();
