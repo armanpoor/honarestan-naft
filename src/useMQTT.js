@@ -11,13 +11,7 @@ export default function useMQTT(channel = 'rfid') {
   // ask for mqtt connection credentials from server
   useEffect(() => {
     // start mqtt websocket connection in browser
-    startConnection(
-      'broker.hivemq.com',
-      '8000',
-      '',
-      '',
-      false
-    );
+    startConnection('broker.hivemq.com', '8884', '', '', true);
     // startConnection(
     //   'localhost',
     //   '8083',
