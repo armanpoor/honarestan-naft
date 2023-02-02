@@ -74,9 +74,9 @@ export default function useMQTT(channel = 'rfid') {
     // called when the client loses its connection
     function onConnectionLost(responseObject) {
       setMqttStatus('DISCONNECTED');
-      if (responseObject.errorCode !== 0) {
-        console.log(`onConnectionLost:${responseObject.errorMessage}`);
-      }
+      // if (responseObject.errorCode !== 0) {
+      //   console.log(`onConnectionLost:${responseObject.errorMessage}`);
+      // }
       try {
         clearInterval(mqttTimer);
         mqttTimer = setInterval(() => {
