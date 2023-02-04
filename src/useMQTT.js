@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from "react";
 
-import { Client as MqttClient } from './paho-mqtt';
+import { Client as MqttClient } from "./paho-mqtt";
 
 var mqttTimer;
-export default function useMQTT(channel = 'rfid') {
+export default function useMQTT(channel = "rfid") {
   // states
   const [mqttMessage, setMqttMessage] = useState();
-  const [mqttStatus, setMqttStatus] = useState('DISCONNECTED');
+  const [mqttStatus, setMqttStatus] = useState("DISCONNECTED");
 
   // ask for mqtt connection credentials from server
   useEffect(() => {
     // start mqtt websocket connection in browser
-    startConnection('broker.hivemq.com', '8884', '', '', true);
+    startConnection("broker.hivemq.com", "8884", "", "", true);
   }, []);
-  
+
   // // show notification every time a new mqtt message is received
   // useEffect(() => {
   //   useNotification(
@@ -48,11 +48,12 @@ export default function useMQTT(channel = 'rfid') {
 
   // connection manager
   function startConnection(host, port, username, password, useSSL) {
-    var client = new MqttClient(host, Number(port), '/mqtt', 'clientID-43');
+    var clientID = "naft" + new Date().getTime();
+    var client = new MqttClient(host, Number(port), "", clientID);
 
     // called when the client connects
     function onConnect() {
-      setMqttStatus('CONNECTED');
+      setMqttStatus("CONNECTED");
       client.subscribe(channel);
     }
     // called when a message arrives
@@ -61,7 +62,7 @@ export default function useMQTT(channel = 'rfid') {
     }
     // called when the client loses its connection
     function onConnectionLost(responseObject) {
-      setMqttStatus('DISCONNECTED');
+      setMqttStatus("DISCONNECTED");
       if (responseObject.errorCode !== 0) {
         console.log(`onConnectionLost:${responseObject.errorMessage}`);
       }
@@ -92,9 +93,10 @@ export default function useMQTT(channel = 'rfid') {
         userName: username,
         password: password,
       });
-      document.querySelector('#button').addEventListener('click', function (e) {
-        const message = document.querySelector('#input')?.textContent;
-        client.publish('rfid', message);
+      document.querySelector("#button").addEventListener("click", function (e) {
+        const message = document.querySelector("#input")?.textContent;
+        console.log(`message for publish:${message}`);
+        client.publish(channel, message);
       });
     } catch {
       onConnectionLost();
