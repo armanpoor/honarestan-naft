@@ -12,14 +12,8 @@ export default function useMQTT(channel = 'rfid') {
   useEffect(() => {
     // start mqtt websocket connection in browser
     startConnection('broker.hivemq.com', '8884', '', '', true);
-    // startConnection(
-    //   'localhost',
-    //   '8083',
-    //   '@mehdiabdi1995',
-    //   '6aJ5V77Wmzn6)E',
-    //   false
-    // );
   }, []);
+  
   // // show notification every time a new mqtt message is received
   // useEffect(() => {
   //   useNotification(
@@ -68,9 +62,9 @@ export default function useMQTT(channel = 'rfid') {
     // called when the client loses its connection
     function onConnectionLost(responseObject) {
       setMqttStatus('DISCONNECTED');
-      // if (responseObject.errorCode !== 0) {
-      //   console.log(`onConnectionLost:${responseObject.errorMessage}`);
-      // }
+      if (responseObject.errorCode !== 0) {
+        console.log(`onConnectionLost:${responseObject.errorMessage}`);
+      }
       try {
         clearInterval(mqttTimer);
         mqttTimer = setInterval(() => {

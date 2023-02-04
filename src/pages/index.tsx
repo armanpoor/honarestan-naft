@@ -1,14 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-import useMQTT from '../useMQTT'
-import { useState } from 'react'
+import Head from "next/head";
+import useMQTT from "../useMQTT";
+import { useState } from "react";
 export default function Home() {
+  const [text, setText] = useState("");
 
-  const [text, setText] = useState('')
-  
-  const {mqttMessage, mqttStatus} = useMQTT()
+  const { mqttMessage, mqttStatus } = useMQTT("honarestan/naft/test1");
   return (
     <>
       <Head>
@@ -17,12 +13,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main style={{display: 'flex', flexFlow: "column nowrap", gap: "20px", minHeight: "100vh", padding: "30px"}}>
-        <textarea id='input' value={text} onChange={(e)=>setText(e.target.value)} style={{minHeight: "50px", padding: "30px"}} />
-        <button id='button' style={{height: "30px", inlineSize: '100px', marginInline: 'auto'}}>Click me</button>
+      <main
+        style={{
+          display: "flex",
+          flexFlow: "column nowrap",
+          gap: "20px",
+          minHeight: "100vh",
+          padding: "30px",
+        }}
+      >
+        <textarea
+          id="input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          style={{ minHeight: "50px", padding: "30px" }}
+        />
+        <button
+          id="button"
+          style={{ height: "30px", inlineSize: "100px", marginInline: "auto" }}
+        >
+          Click me
+        </button>
 
-        <textarea value={mqttMessage} style={{color: "red"}}/>
+        <textarea value={mqttMessage} style={{ color: "red" }} />
       </main>
     </>
-  )
+  );
 }
